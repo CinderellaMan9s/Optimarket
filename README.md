@@ -1,4 +1,4 @@
-# 🇮🇳 OptiMarket — AI-Powered Portfolio Optimization Agent for Indian Markets
+# OptiMarket — AI-Powered Portfolio Optimization Agent for Indian Markets
 
 <div align="center">
 
@@ -8,81 +8,81 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3-F7931E?style=for-the-badge&logo=scikit-learn)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**An intelligent portfolio optimization agent built entirely on real Indian market data.**  
+**Portfolio optimization for Indian investors, built entirely on real market data.**  
 Zero hardcoded values. Zero paid APIs. 100% AMFI + RBI + NSE data.
 
-[Features](#-features) • [Architecture](#-architecture) • [Installation](#-installation) • [Usage](#-usage) • [Data Sources](#-data-sources) • [ML Model](#-ml-model)
+[Features](#features) • [Architecture](#architecture) • [Installation](#installation) • [Data Sources](#data-sources) • [ML Model](#ml-model)
 
 </div>
 
 ---
 
-## 🎯 What is OptiMarket?
+## What is OptiMarket?
 
-OptiMarket is a full-stack AI-powered portfolio optimization system designed specifically for **Indian retail investors**. It combines:
+OptiMarket is a full-stack AI-powered portfolio optimization system designed for Indian retail investors. It combines:
 
-- 📈 **Machine Learning** — Gradient Boosting Classifier trained on 46,997 rows of real AMFI NAV data to generate BUY / SELL / HOLD signals
-- 📊 **Markowitz Mean-Variance Optimization** — 10,000 Monte Carlo simulations to find the maximum Sharpe ratio portfolio
-- 💹 **Bond Pricing Engine** — DCF-based pricing with Modified Duration, Convexity, and DV01 for Indian fixed-income instruments
-- ⚡ **Stress Testing** — Portfolio P&L simulation under 9 RBI rate shock scenarios (−300 to +300 bps)
-- 🌐 **Live Market Data** — Real-time RBI repo rate, G-Sec yields, NIFTY 50, and AMFI NAV data
+- **Machine Learning** — Gradient Boosting Classifier trained on 46,997 rows of real AMFI NAV data to generate BUY / SELL / HOLD signals
+- **Markowitz Mean-Variance Optimization** — 10,000 Monte Carlo simulations to find the maximum Sharpe ratio portfolio
+- **Bond Pricing Engine** — DCF-based pricing with Modified Duration, Convexity, and DV01 for Indian fixed-income instruments
+- **Stress Testing** — Portfolio P&L simulation under 9 RBI rate shock scenarios (−300 to +300 bps)
+- **Live Market Data** — RBI repo rate, G-Sec yields, NIFTY 50, and AMFI NAV data
 
 ---
 
-## ✨ Features
+## Features
 
 | Feature | Description |
 |--------|-------------|
-| 🏦 **Fund Universe** | 25+ Indian mutual fund schemes across 9 SEBI categories |
-| 🤖 **AI Recommender** | GBM classifier with TimeSeriesSplit CV — no data leakage |
-| 📉 **Risk Classifier** | Random Forest model classifying funds as Low / Medium / High risk |
-| 🎯 **Gap Analysis** | Compares current portfolio vs. target yield, duration & volatility |
-| 🧠 **5-Step Reasoning** | Plain-language AI explanation for every recommendation |
-| 💰 **Bond Pricer** | G-Sec, PSU, Corporate bond pricing with rate shock analysis |
-| 📋 **Stress Test** | Interest rate scenario analysis with P&L bar chart |
-| 📡 **Live Rates** | RBI rate, 10Y G-Sec yield, T-Bill proxy — all from free APIs |
+| **Fund Universe** | 25+ Indian mutual fund schemes across 9 SEBI categories |
+| **AI Recommender** | GBM classifier with TimeSeriesSplit CV — no data leakage |
+| **Risk Classifier** | Random Forest model classifying funds as Low / Medium / High risk |
+| **Gap Analysis** | Compares current portfolio vs. target yield, duration and volatility |
+| **5-Step Reasoning** | Plain-language explanation for every recommendation |
+| **Bond Pricer** | G-Sec, PSU, Corporate bond pricing with rate shock analysis |
+| **Stress Test** | Interest rate scenario analysis with P&L bar chart |
+| **Live Rates** | RBI rate, 10Y G-Sec yield, T-Bill proxy — all from free APIs |
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 optimarket/
 ├── ml/
-│   ├── step1_fetch_data.py        ← Downloads AMFI NAV + NSE + ETF data
-│   ├── step2_build_features.py    ← Engineers 15 financial features from NAV
-│   ├── step3_train_models.py      ← (Legacy) Original training script
-│   └── step4_live_rates.py        ← Fetches RBI/FRED rates, builds fund universe
+│   ├── step1_fetch_data.py        — Downloads AMFI NAV + NSE + ETF data
+│   ├── step2_build_features.py    — Engineers 15 financial features from NAV
+│   ├── step3_train_models.py      — (Legacy) Original training script
+│   └── step4_live_rates.py        — Fetches RBI/FRED rates, builds fund universe
 │
-├── fix_and_train.py               ← ✅ Use this instead of step3
+├── fix_and_train.py               — Use this instead of step3
 │
 ├── backend/
-│   ├── main.py                    ← FastAPI application entry point
+│   ├── main.py                    — FastAPI application entry point
 │   └── services/
-│       ├── bond_pricer.py         ← DCF pricing, Duration, Convexity, DV01
-│       ├── optimizer.py           ← Portfolio metrics + stress test
-│       └── mv_optimizer.py        ← Markowitz MVO (Monte Carlo)
+│       ├── bond_pricer.py         — DCF pricing, Duration, Convexity, DV01
+│       ├── optimizer.py           — Portfolio metrics + stress test
+│       └── mv_optimizer.py        — Markowitz MVO (Monte Carlo)
 │
 ├── frontend/src/pages/
-│   ├── Dashboard.jsx              ← Live Indian market indicators
-│   ├── Portfolio.jsx              ← Fund builder with real AMFI data
-│   ├── Optimizer.jsx              ← Gap analysis + AI reasoning
-│   ├── BondPricer.jsx             ← Bond calculator with presets
-│   └── StressTest.jsx             ← Rate shock P&L visualizer
+│   ├── Dashboard.jsx              — Live Indian market indicators
+│   ├── Portfolio.jsx              — Fund builder with real AMFI data
+│   ├── Optimizer.jsx              — Gap analysis + AI reasoning
+│   ├── BondPricer.jsx             — Bond calculator with presets
+│   └── StressTest.jsx             — Rate shock P&L visualizer
 │
-├── models/                        ← Trained .pkl model files (auto-generated)
+├── models/                        — Trained .pkl model files (auto-generated)
 └── data/
-    ├── raw/                       ← Downloaded market data
+    ├── raw/                       — Downloaded market data
     └── processed/
-        ├── fund_features.csv      ← Engineered ML features
-        ├── fund_universe.csv      ← Fund metrics from NAV history
-        ├── market_summary.json    ← Live RBI/NSE rates
-        └── optimizer_scores.csv   ← ML predictions per fund
+        ├── fund_features.csv      — Engineered ML features
+        ├── fund_universe.csv      — Fund metrics from NAV history
+        ├── market_summary.json    — Live RBI/NSE rates
+        └── optimizer_scores.csv   — ML predictions per fund
 ```
 
 ---
 
-## 📡 Data Sources
+## Data Sources
 
 | Data | Source | Series / API | Frequency |
 |------|--------|-------------|-----------|
@@ -93,11 +93,11 @@ optimarket/
 | CPI Inflation | FRED / IMF | `INDCPIALLMINMEI` | Monthly |
 | T-Bill Rate | Computed from AMFI Liquid NAVs | Annualized 91-day return | Daily |
 
-> ✅ All sources are **free and publicly accessible** — no paid subscriptions required.
+All sources are free and publicly accessible — no paid subscriptions required.
 
 ---
 
-## 🤖 ML Model
+## ML Model
 
 ### Feature Engineering (15 features from raw NAV data)
 
@@ -128,24 +128,24 @@ GradientBoostingClassifier(
     min_samples_split=30,
     random_state=42
 )
-# Validation: TimeSeriesSplit(n_splits=5)  ← prevents data leakage
+# Validation: TimeSeriesSplit(n_splits=5)  — prevents data leakage
 # Training rows: ~46,997 from real AMFI NAV history
 ```
 
 ### Label Distribution
 ```
-BUY  ████████████░░░░░░░░  ~30%
-HOLD █████████████████████  ~53%
-SELL ███████░░░░░░░░░░░░░░  ~17%
+BUY   ~30%
+HOLD  ~53%
+SELL  ~17%
 ```
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
-- Python 3.11+ → [python.org](https://python.org/downloads)
-- Node.js LTS → [nodejs.org](https://nodejs.org)
+- Python 3.11+ — [python.org](https://python.org/downloads)
+- Node.js LTS — [nodejs.org](https://nodejs.org)
 
 ### Step 1 — Install Python Dependencies
 ```bash
@@ -157,69 +157,66 @@ cd ..
 ### Step 2 — Download Indian Market Data
 ```bash
 python ml/step1_fetch_data.py
-# ✅ Wait for: "ALL DATA DOWNLOADED SUCCESSFULLY"
-
 python ml/step2_build_features.py
-# ✅ Wait for: "FEATURES BUILT SUCCESSFULLY"
 ```
 
-### Step 3 — Train AI Models
+### Step 3 — Train Models
 ```bash
 python fix_and_train.py
-# ✅ Wait for: "ALL MODELS TRAINED SUCCESSFULLY"
 ```
 
 ### Step 4 — Fetch Live Market Rates
 ```bash
 python ml/step4_live_rates.py
-# ✅ Wait for: "LIVE MARKET DATA FETCHED"
 ```
 
-> 💡 Steps 1–4 only need to be run **once**.
+Steps 1–4 only need to be run once.
 
 ---
 
-## 🖥️ Running the App
+## Running the App
 
 **Terminal 1 — Backend**
 ```bash
 cd backend
 python -m uvicorn main:app --reload --port 8000
-# → Running on http://127.0.0.1:8000
 ```
 
 **Terminal 2 — Frontend**
 ```bash
 cd frontend
-npm install   # first time only
+npm install
 npm start
-# → Opens http://localhost:3000 automatically 🎉
 ```
 
+The app opens at http://localhost:3000
+
 ---
 
-## 📊 Sample Results
+## Sample Results
 
 ### Bond Pricing — GOI 7.26% 2033 (10-Year G-Sec)
+
 | Metric | Value |
 |--------|-------|
-| Bond Price (YTM 7.12%) | ₹1,009.19 |
+| Bond Price (YTM 7.12%) | Rs. 1,009.19 |
 | Modified Duration | 6.540 years |
 | Convexity | 52.34 |
-| DV01 | ₹0.66 per ₹1,000 face value |
+| DV01 | Rs. 0.66 per Rs. 1,000 face value |
 
 ### Stress Test — Portfolio Duration 3.5 Years
+
 | Rate Shock | P&L |
 |-----------|-----|
-| −300 bps | +10.5% |
-| −100 bps | +3.5% |
+| -300 bps | +10.5% |
+| -100 bps | +3.5% |
 | Base (0) | 0.00% |
-| +100 bps | −3.5% |
-| +300 bps | −10.5% |
+| +100 bps | -3.5% |
+| +300 bps | -10.5% |
 
 ---
 
-## 👥 Team
+## Team
 
 | Name | Roll Number |
 |------|------------|
@@ -233,12 +230,7 @@ npm start
 
 ---
 
-## 📄 License
+## License
 
-This project is submitted as an academic project at Woxsen University under the B.Tech. AI & ML program (2024–2028). All data is sourced from publicly available APIs.
-
----
-
-<div align="center">
-Made with ❤️ for Indian investors · Woxsen University · 2024–2025
-</div>
+Submitted as an academic project at Woxsen University, B.Tech. AI & ML (2024–2028).  
+All data sourced from publicly available APIs.
